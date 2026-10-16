@@ -1,5 +1,5 @@
-// service worker planu — wersja d24fd0713f
-const V='plan-d24fd0713f', FONTS='plan-fonts';
+// service worker planu — wersja 0327da35c5
+const V='plan-0327da35c5', FONTS='plan-fonts';
 self.addEventListener('install',e=>{
   e.waitUntil(caches.open(V).then(c=>c.addAll(['./','./index.html','./manifest.webmanifest','./icon.png'])).then(()=>self.skipWaiting()));
 });
