@@ -1,5 +1,5 @@
-// service worker planu — wersja 90999e86ff
-const V='plan-90999e86ff', FONTS='plan-fonts';
+// service worker planu — wersja 8715dca556
+const V='plan-8715dca556', FONTS='plan-fonts';
 self.addEventListener('install',e=>{
   e.waitUntil(caches.open(V).then(c=>c.addAll(['./','./index.html','./manifest.webmanifest','./icon.png'])).then(()=>self.skipWaiting()));
 });
@@ -17,8 +17,8 @@ self.addEventListener('fetch',e=>{
     return;
   }
   if(u.origin===location.origin){
-    // własne pliki: najpierw sieć (świeża wersja), offline z cache
-    e.respondWith(fetch(e.request).then(net=>{ caches.open(V).then(c=>c.put(e.request,net.clone())); return net; })
+    // własne pliki: najpierw sieć z pominięciem HTTP cache (GitHub Pages daje max-age=600 — bez no-store telefon widzi starą wersję do 10 min), offline z cache
+    e.respondWith(fetch(e.request.url,{cache:'no-store',credentials:'same-origin'}).then(net=>{ caches.open(V).then(c=>c.put(e.request,net.clone())); return net; })
       .catch(()=>caches.match(e.request).then(hit=>hit||caches.match('./index.html'))));
   }
 });
